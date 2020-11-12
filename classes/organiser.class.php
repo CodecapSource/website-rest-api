@@ -5,16 +5,18 @@ class Organiser {
     private $logs;
     private $class_name;
     private $class_name_lower;
+    private $table_name;
     
     public function __construct(PDO $db) {
         $this->logs = new Logs($db);
         $this->db = $db;
         $this->class_name = "Organiser";
         $this->class_name_lower = "organiser_class";
+        $this->table_name = "organisers";
     }
 
     public function get_all() {
-        $q = "SELECT * FROM `organisers`";
+        $q = "SELECT * FROM `".$this->table_name."`";
         $s = $this->db->prepare($q);
 
         if (!$s->execute()) {
@@ -30,7 +32,7 @@ class Organiser {
     }
 
     public function get_one($column, $value, $compare = "=") {
-        $q = "SELECT * FROM `organisers` WHERE `$column` $compare :$column";
+        $q = "SELECT * FROM `".$this->table_name."` WHERE `$column` $compare :$column";
         $s = $this->db->prepare($q);
         $s->bindParam(":$column", $value);
 
@@ -54,7 +56,7 @@ class Organiser {
 
     public function add($data) {
         [$cols, $_cols, $vals] = $this->extract_column_value($data);
-        $q = "INSERT INTO `organisers`($cols) VALUES ($_cols)";
+        $q = "INSERT INTO `".$this->table_name."`($cols) VALUES ($_cols)";
         $s = $this->db->prepare($q);
         if (!$s->execute($vals)) {
             $failure = $this->class_name.'.add - E.02: Failure';

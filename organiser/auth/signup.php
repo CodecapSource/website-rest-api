@@ -11,7 +11,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 $response = ["status" => 400, "type" => "request", "data" => "Invalid Request"];
-
 if (isset($data)) {
 
     $required_fields = ["email", "name", "password", "country"];
@@ -97,6 +96,7 @@ if (isset($data)) {
              * Validation is passed 
              *  inserting data to database
              *  */ 
+            $data_bag["or_reg_ip"] = PROJECT_MODE == 'development' ? '203.101.187.19' : get_ip();
 
             $signup = $organiser->add($data_bag);
 
@@ -111,8 +111,6 @@ if (isset($data)) {
     if (!empty($invalid_fields)) {
         $response = ["status" => 403, "type" => "fields", "data" => $invalid_fields];
     }
-    
 }
 
 echo json_encode($response);
-
