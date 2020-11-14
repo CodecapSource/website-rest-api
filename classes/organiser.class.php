@@ -63,6 +63,14 @@ class Organiser {
             $this->logs->create($this->class_name_lower, $failure, json_encode($s->errorInfo()));
             return ['status' => false, 'type' => 'query', 'data' => $failure];
         }
+
+        $content = json_encode(["type" => "or_reg_ip_details", "ip" => $data['or_reg_ip'], "or_id" => $this->db->lastInsertId()]);
+        $q = "INSERT INTO `jobs` (`job_for`, `job_content`) VALUES ('nodejs', '$content')";
+        $s = $this->db->prepare($q);
+        if (!$s->execute()) {
+            $failure = $this->class_name.'.add - E.02: Failure job_table';
+            $this->logs->create($this->class_name_lower, $failure, json_encode($s->errorInfo()));
+        }
         
         return ['status' => true, 'type' => 'success', 'data' => 'data is successfully inserted.'];
     }
