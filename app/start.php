@@ -21,6 +21,9 @@
     // Timezone setting
     define('TIMEZONE', 'Asia/Karachi');
     date_default_timezone_set(TIMEZONE);
+    
+    define('SECRET', 'test');
+    define('SESSION_EXPIRE_TIME', 3600);
 
     // Auto load classes
     include DIR . 'app/auto_loader.php';
