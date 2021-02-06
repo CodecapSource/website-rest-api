@@ -1,0 +1,8 @@
+# <apache> disable directory access current as well as sub directories
+Options -Indexes
+
+ErrorDocument 403 /api/403
+ErrorDocument 404 /api/404
+ErrorDocument 500 /api/500
+
+
